@@ -71,7 +71,7 @@
       this.signInUserSession = this.getCachedSession();
       this.signInUserSession.setTokenScopes(tokenScopes);
       this.launchUri = typeof LaunchUri === 'function' ? LaunchUri : launchUri;
-
+      this.headers = this.getCognitoConstants().HEADER
       /**
        * By default, AdvancedSecurityDataCollectionFlag is set to true, if no input value is provided.
        */
@@ -166,6 +166,10 @@
      */
     setUser(Username) {
       this.username = Username;
+    }
+
+    setHeaders(header) {
+      this.headers = header;
     }
   
     /**
@@ -312,7 +316,7 @@
         const url = this.getCognitoConstants().DOMAIN_SCHEME.concat(
         this.getCognitoConstants().COLONDOUBLESLASH, this.getAppWebDomain(),
         this.getCognitoConstants().SLASH, this.getCognitoConstants().DOMAIN_PATH_TOKEN);
-        const header = this.getCognitoConstants().HEADER;
+        const header = this.headers;
         const body = { grant_type: this.getCognitoConstants().AUTHORIZATIONCODE,
           client_id: this.getClientId(),
           redirect_uri: this.RedirectUriSignIn,
@@ -519,7 +523,7 @@
       const url = this.getCognitoConstants().DOMAIN_SCHEME.concat(
       this.getCognitoConstants().COLONDOUBLESLASH, this.getAppWebDomain(),
       this.getCognitoConstants().SLASH, this.getCognitoConstants().DOMAIN_PATH_TOKEN);
-      const header = this.getCognitoConstants().HEADER;
+      const header = this.headers
       const body = { grant_type: this.getCognitoConstants().REFRESHTOKEN,
         client_id: this.getClientId(),
         redirect_uri: this.RedirectUriSignIn,
