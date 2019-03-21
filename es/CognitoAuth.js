@@ -87,7 +87,7 @@ var CognitoAuth = function () {
     this.signInUserSession = this.getCachedSession();
     this.signInUserSession.setTokenScopes(tokenScopes);
     this.launchUri = typeof LaunchUri === 'function' ? LaunchUri : launchUri;
-
+    this.headers = this.getCognitoConstants().HEADER;
     /**
      * By default, AdvancedSecurityDataCollectionFlag is set to true, if no input value is provided.
      */
@@ -190,6 +190,10 @@ var CognitoAuth = function () {
 
   CognitoAuth.prototype.setUser = function setUser(Username) {
     this.username = Username;
+  };
+
+  CognitoAuth.prototype.setHeaders = function setHeaders(header) {
+    this.headers = header;
   };
 
   /**
@@ -349,7 +353,7 @@ var CognitoAuth = function () {
       // To parse the response and get the code value.
       var codeParameter = map.get(this.getCognitoConstants().CODE);
       var url = this.getCognitoConstants().DOMAIN_SCHEME.concat(this.getCognitoConstants().COLONDOUBLESLASH, this.getAppWebDomain(), this.getCognitoConstants().SLASH, this.getCognitoConstants().DOMAIN_PATH_TOKEN);
-      var header = this.getCognitoConstants().HEADER;
+      var header = this.headers;
       var body = { grant_type: this.getCognitoConstants().AUTHORIZATIONCODE,
         client_id: this.getClientId(),
         redirect_uri: this.RedirectUriSignIn,
@@ -587,7 +591,7 @@ var CognitoAuth = function () {
   CognitoAuth.prototype.refreshSession = function refreshSession(refreshToken) {
     // https POST call for refreshing token
     var url = this.getCognitoConstants().DOMAIN_SCHEME.concat(this.getCognitoConstants().COLONDOUBLESLASH, this.getAppWebDomain(), this.getCognitoConstants().SLASH, this.getCognitoConstants().DOMAIN_PATH_TOKEN);
-    var header = this.getCognitoConstants().HEADER;
+    var header = this.headers;
     var body = { grant_type: this.getCognitoConstants().REFRESHTOKEN,
       client_id: this.getClientId(),
       redirect_uri: this.RedirectUriSignIn,

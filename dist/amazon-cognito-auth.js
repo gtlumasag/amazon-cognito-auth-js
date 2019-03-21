@@ -983,7 +983,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.signInUserSession = this.getCachedSession();
 	    this.signInUserSession.setTokenScopes(tokenScopes);
 	    this.launchUri = typeof LaunchUri === 'function' ? LaunchUri : _UriHelper.launchUri;
-
+	    this.headers = this.getCognitoConstants().HEADER;
 	    /**
 	     * By default, AdvancedSecurityDataCollectionFlag is set to true, if no input value is provided.
 	     */
@@ -1092,6 +1092,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'setUser',
 	    value: function setUser(Username) {
 	      this.username = Username;
+	    }
+	  }, {
+	    key: 'setHeaders',
+	    value: function setHeaders(header) {
+	      this.headers = header;
 	    }
 
 	    /**
@@ -1261,7 +1266,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // To parse the response and get the code value.
 	        var codeParameter = map.get(this.getCognitoConstants().CODE);
 	        var url = this.getCognitoConstants().DOMAIN_SCHEME.concat(this.getCognitoConstants().COLONDOUBLESLASH, this.getAppWebDomain(), this.getCognitoConstants().SLASH, this.getCognitoConstants().DOMAIN_PATH_TOKEN);
-	        var header = this.getCognitoConstants().HEADER;
+	        var header = this.headers;
 	        var body = { grant_type: this.getCognitoConstants().AUTHORIZATIONCODE,
 	          client_id: this.getClientId(),
 	          redirect_uri: this.RedirectUriSignIn,
@@ -1518,7 +1523,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function refreshSession(refreshToken) {
 	      // https POST call for refreshing token
 	      var url = this.getCognitoConstants().DOMAIN_SCHEME.concat(this.getCognitoConstants().COLONDOUBLESLASH, this.getAppWebDomain(), this.getCognitoConstants().SLASH, this.getCognitoConstants().DOMAIN_PATH_TOKEN);
-	      var header = this.getCognitoConstants().HEADER;
+	      var header = this.headers;
 	      var body = { grant_type: this.getCognitoConstants().REFRESHTOKEN,
 	        client_id: this.getClientId(),
 	        redirect_uri: this.RedirectUriSignIn,
@@ -1915,7 +1920,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1944,48 +1949,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	/** @class */
 
 	var DateHelper = function () {
-	  function DateHelper() {
-	    _classCallCheck(this, DateHelper);
-	  }
-
-	  _createClass(DateHelper, [{
-	    key: 'getNowString',
-
-	    /**
-	     * @returns {string} The current time in "ddd MMM D HH:mm:ss UTC YYYY" format.
-	     */
-	    value: function getNowString() {
-	      var now = new Date();
-
-	      var weekDay = weekNames[now.getUTCDay()];
-	      var month = monthNames[now.getUTCMonth()];
-	      var day = now.getUTCDate();
-
-	      var hours = now.getUTCHours();
-	      if (hours < 10) {
-	        hours = '0' + hours;
-	      }
-
-	      var minutes = now.getUTCMinutes();
-	      if (minutes < 10) {
-	        minutes = '0' + minutes;
-	      }
-
-	      var seconds = now.getUTCSeconds();
-	      if (seconds < 10) {
-	        seconds = '0' + seconds;
-	      }
-
-	      var year = now.getUTCFullYear();
-
-	      // ddd MMM D HH:mm:ss UTC YYYY
-	      var dateNow = weekDay + ' ' + month + ' ' + day + ' ' + hours + ':' + minutes + ':' + seconds + ' UTC ' + year;
-
-	      return dateNow;
+	    function DateHelper() {
+	        _classCallCheck(this, DateHelper);
 	    }
-	  }]);
 
-	  return DateHelper;
+	    _createClass(DateHelper, [{
+	        key: 'getNowString',
+
+	        /**
+	         * @returns {string} The current time in "ddd MMM D HH:mm:ss UTC YYYY" format.
+	         */
+	        value: function getNowString() {
+	            var now = new Date();
+
+	            var weekDay = weekNames[now.getUTCDay()];
+	            var month = monthNames[now.getUTCMonth()];
+	            var day = now.getUTCDate();
+
+	            var hours = now.getUTCHours();
+	            if (hours < 10) {
+	                hours = '0' + hours;
+	            }
+
+	            var minutes = now.getUTCMinutes();
+	            if (minutes < 10) {
+	                minutes = '0' + minutes;
+	            }
+
+	            var seconds = now.getUTCSeconds();
+	            if (seconds < 10) {
+	                seconds = '0' + seconds;
+	            }
+
+	            var year = now.getUTCFullYear();
+
+	            // ddd MMM D HH:mm:ss UTC YYYY
+	            var dateNow = weekDay + ' ' + month + ' ' + day + ' ' + hours + ':' + minutes + ':' + seconds + ' UTC ' + year;
+
+	            return dateNow;
+	        }
+	    }]);
+
+	    return DateHelper;
 	}();
 
 	exports.default = DateHelper;
